@@ -28,30 +28,47 @@ const countrie = data => {
         `
         <div class="hero__countries__cart">
             <div>
-                <img class="hero__countries_flag" src="${flag}" alt=""/>
+                <img class="hero__countries__flag_item" src="${flag}" alt=""/>
             </div>
             <div class="hero__countries__description">
-                <h1>${nameCountrie}</h1>
-                <p>Population: <span>${population}</span></p>
-                <p>Region: <span>${region}</span></p>
-                <p>Capital: <span>${capital}</span></p>
+                <h1> ${nameCountrie}</h1>
+                <p>Population: <span> ${population}</span></p>
+                <p>Region: <span> ${region}</span></p>
+                <p>Capital: <span> ${capital}</span></p>
             </div>
         </div>
-        `
-
+        `   
+        // console.log(t)
         countrieCart.appendChild(countrieInfo)
     }
-
-     // countrieInfo.classList.add();
-
+    
+//    Dark Mode for cart
+    const switchMode = document.querySelector('.menu__switch');
+    const cartdarkMode = document.querySelectorAll('.hero__countries__description')
+    
+    switchMode.addEventListener('click', () => {
+        cartdarkMode.forEach( el => {
+            el.classList.toggle('bg-dark-mode-nav_cart_wigets')
+        })
+    })
+    
 }
-
 
 
 function selectContries() {
     const selectContriesOption = document.querySelector('.hero__select_tools');
     const selectCountriesOptionModal = document.querySelector('.hero__select_options');
-    const iconDownArrow = selectContriesOption.querySelector('i')
+    const iconDownArrow = selectContriesOption.querySelector('i');
+
+    // dark mode
+    const switchMode = document.querySelector('.menu__switch');
+
+    switchMode.addEventListener('click', () => {
+        selectCountriesOptionModal.classList.toggle('bg-dark-mode-nav_cart_wigets');
+        selectContriesOption.classList.toggle('bg-dark-mode-nav_cart_wigets');
+    })
+
+
     // open modal with regional bloc
     selectContriesOption.addEventListener("click" , () => {
         selectCountriesOptionModal.classList.toggle('is-active')
