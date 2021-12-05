@@ -5,60 +5,66 @@ fetch(`${url}all`)
     .then(response => response.json())
     .then(data => countries(data))
 
-
-const countries = data => {
+    const countries = data => {
     countrie(data)
+    filter(data)
+    selectContries(data)
 }
 
 
+// cards countries
 const countrie = data => {
     const countrieCart = document.querySelector('.hero__countries');
-   
     for( let i = 0; i < data.length; i++) {
 
-        const countrieInfo = document.createElement('div');
+        const countrieInfo = document.createElement('li');
         const flag = data[i].flags.png;
         const nameCountrie = data[i].name.common
         const population = data[i].population.toLocaleString()
         const region = data[i].region
         const capital = data[i].capital
 
-        
+        countrieInfo.classList.add('hero__countries__cart')
+
         countrieInfo.innerHTML = 
         `
-        <div class="hero__countries__cart">
-            <div>
-                <img class="hero__countries__flag_item" src="${flag}" alt=""/>
-            </div>
+            <img class="hero__countries__flag_item" src="${flag}" alt=""/>
             <div class="hero__countries__description">
                 <h1> ${nameCountrie}</h1>
                 <p>Population: <span> ${population}</span></p>
-                <p>Region: <span> ${region}</span></p>
-                <p>Capital: <span> ${capital}</span></p>
+                <p>Region: <span id="region"> ${region}</span></p>
+                <p>Capital: <span> ${capital}</span></p> 
             </div>
-        </div>
+        
         `   
-        // console.log(t)
         countrieCart.appendChild(countrieInfo)
     }
-    
-//    Dark Mode for cart
-    const switchMode = document.querySelector('.menu__switch');
-    const cartdarkMode = document.querySelectorAll('.hero__countries__description')
-    
-    switchMode.addEventListener('click', () => {
-        cartdarkMode.forEach( el => {
-            el.classList.toggle('bg-dark-mode-nav_cart_wigets')
-        })
-    })
-    
 }
 
+// filter country by input
+const filter = data => {
+    const nameCountrieFiltr = document.querySelectorAll('.hero__countries__cart');
+    const input = document.querySelector('#input');
+    let filter = input.value.toUpperCase();
+    let letter;
+    let txtValue;
+    for(let i = 0; i < nameCountrieFiltr.length; i++ ) {
+        letter = nameCountrieFiltr[i].getElementsByTagName('h1')[0]
+        txtValue = letter.textContent || letter.innerHTML
+        if(txtValue.toUpperCase().indexOf(filter) > -1){
+            nameCountrieFiltr[i].style.display = 'block'
+        } else {
+            nameCountrieFiltr[i].style.display = 'none'
+        }
+    }  
+}
 
-function selectContries() {
+// dark mode and filter by region
+function selectContries(data) {
     const selectContriesOption = document.querySelector('.hero__select_tools');
     const selectCountriesOptionModal = document.querySelector('.hero__select_options');
     const iconDownArrow = selectContriesOption.querySelector('i');
+    const cartdarkMode = document.querySelectorAll('.hero__countries__description')
 
     // dark mode
     const switchMode = document.querySelector('.menu__switch');
@@ -66,8 +72,10 @@ function selectContries() {
     switchMode.addEventListener('click', () => {
         selectCountriesOptionModal.classList.toggle('bg-dark-mode-nav_cart_wigets');
         selectContriesOption.classList.toggle('bg-dark-mode-nav_cart_wigets');
+        cartdarkMode.forEach( el => {
+            el.classList.toggle('bg-dark-mode-nav_cart_wigets')
+        })
     })
-
 
     // open modal with regional bloc
     selectContriesOption.addEventListener("click" , () => {
@@ -88,22 +96,19 @@ function selectContries() {
                 titleCountriesOptionModal.textContent = countrie
                 iconDownArrow.classList.remove('animate-arrow')
                 selectCountriesOptionModal.classList.remove('is-active')
-            }   
-            
-            // this one is for filter https://restcountries.com/v3.1/region/{region}
+            }       
+           
+
         })
-    })
-
+    }) 
 }
 
 
 
+// filtr by region 
+// const co = 'Asia'
 
+// fetch(`${url}region/${co}`) 
+//     .then(response => response.json())
+//     .then(region => console.log(region))
 
-
-
-const init = () => {
-    selectContries()
-}
-
-init();
