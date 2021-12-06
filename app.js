@@ -25,6 +25,7 @@ const countrie = data => {
         const capital = data[i].capital
 
         countrieInfo.classList.add('hero__countries__cart')
+        countrieInfo.setAttribute("data-region",`${region}`)
 
         countrieInfo.innerHTML = 
         `
@@ -59,7 +60,7 @@ const filter = data => {
     }  
 }
 
-// dark mode and filter by region
+// dark mode and filter by region dark mode
 function selectContries(data) {
     const selectContriesOption = document.querySelector('.hero__select_tools');
     const selectCountriesOptionModal = document.querySelector('.hero__select_options');
@@ -83,7 +84,7 @@ function selectContries(data) {
         iconDownArrow.classList.toggle('animate-arrow')
     })
 
-    // choose countrie and replace title modul 
+    // choose countrie and replace title modul ,  filter by region 
     let titleCountriesOptionModal = selectContriesOption.querySelector('span')
     const allCountriesRegional = selectCountriesOptionModal.querySelectorAll('li');
 
@@ -97,8 +98,18 @@ function selectContries(data) {
                 iconDownArrow.classList.remove('animate-arrow')
                 selectCountriesOptionModal.classList.remove('is-active')
             }       
-           
 
+            // filter by region
+            const cartRegion = document.querySelectorAll('.hero__countries__cart');
+
+            cartRegion.forEach( item => {
+                item.style.display = "block"
+                if(item.dataset.region !=  countrie){
+                   item.style.display = "none"
+                }
+                
+            })
+    
         })
     }) 
 }
